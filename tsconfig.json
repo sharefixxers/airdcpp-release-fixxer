@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "outDir": "build/dist",
+    "module": "ESNext",
+    "target": "es2020",
+    "lib": ["es2020", "dom", "esnext.asynciterable"],
+    "sourceMap": true,
+    "moduleResolution": "bundler",
+    "rootDirs": ["src","test"],
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "paths": {
+      "*": [
+        "src/*",
+      ],
+      "airdcpp-apisocket": [
+        "src/types/airdcpp-apisocket-vendor/NodeSocket.d.ts",
+      ],
+    }
+  },
+  "exclude": [
+    "coverage",
+    "devtools",
+    "dist",
+    "node_modules",
+  ]
+}

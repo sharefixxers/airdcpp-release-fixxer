@@ -1,0 +1,74 @@
+{
+  "name": "airdcpp-release-fixxer",
+  "version": "1.2.28-beta",
+  "description": "Scans downloaded and shared release directories for missing/extra files (CRC/SFV/NFO) and automatically redownloads what's broken or missing. Fork of the official airdcpp-release-validator.",
+  "main": "dist/main.js",
+  "license": "MIT",
+  "private": false,
+  "author": {
+    "name": "ShareFixxers"
+  },
+  "keywords": [
+    "airdcpp",
+    "airdcpp-extensions",
+    "airdcpp-extensions-public"
+  ],
+  "bugs": "https://github.com/sharefixxers/airdcpp-release-fixxer/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sharefixxers/airdcpp-release-fixxer.git"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run webpack:prod",
+    "clean": "rimraf dist",
+    "start": "node devtools/watch.js ../dist/main.js",
+    "prepublishOnly": "npm run build",
+    "webpack": "webpack",
+    "webpack:prod": "cross-env NODE_ENV=production webpack",
+    "webpack:prof": "cross-env NODE_ENV=production PROFILING=1 webpack",
+    "test": "jest"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/invariant": "^2.2.35",
+    "@types/jest": "^30.0.0",
+    "airdcpp-extension": "^2.0.0-beta",
+    "airdcpp-extension-settings": "^1.2.1",
+    "cross-env": "^10.0.0",
+    "eol": "^0.10.0",
+    "eslint": "^10.0.3",
+    "eslint-config-prettier": "^10.1.8",
+    "jest": "^30.0.5",
+    "jest-cli": "^30.0.5",
+    "nodemon": "^3.1.4",
+    "prettier": "^3.2.5",
+    "rimraf": "^6.0.1",
+    "source-map-support": "^0.5.21",
+    "ts-jest": "^29.0.0",
+    "ts-loader": "^9.3.1",
+    "typescript": "5.9.3",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^7.0.2"
+  },
+  "airdcpp": {
+    "apiVersion": 1,
+    "minApiFeatureLevel": 4,
+    "signalReady": true
+  },
+  "pre-commit": [
+    "test"
+  ],
+  "homepage": "https://github.com/sharefixxers/airdcpp-release-fixxer#readme",
+  "overrides": {
+    "airdcpp-apisocket": "3.0.0-beta.14"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "bufferutil@4.1.0": true,
+    "es5-ext@0.10.64": true,
+    "unrs-resolver@1.12.2": true,
+    "utf-8-validate@5.0.10": true
+  }
+}
