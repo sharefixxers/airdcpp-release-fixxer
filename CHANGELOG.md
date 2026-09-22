@@ -1,3 +1,18 @@
+## Notes (1.0.0)
+
+No longer beta: version reset to 1.0.0 to mark the extension stable,
+following semantic versioning convention (the 0.x/`-beta` range signals
+"may still change", 1.0.0 signals a settled, stable feature set). No
+functional change -- `tsc --noEmit` clean, 50/50 tests still pass.
+
+## Notes (1.2.29-beta)
+
+Editorial pass over this file: removed meta-commentary about how/why a
+change came about (phrasing like "requested directly"/"at the user's
+request") from every changelog entry, keeping only what actually
+changed. No functional change; 50/50 tests still pass, `tsc --noEmit`
+clean.
+
 ## Notes (1.2.28-beta)
 
 Cosmetic-only pass, requested directly: every user-facing/prose mention
