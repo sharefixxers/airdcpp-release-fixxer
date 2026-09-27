@@ -1,3 +1,11 @@
+## Notes (1.3.2)
+
+Settings-screen display fix: the **Release names allowed to have no SFV/NFO** (`no_sfv_exempt_patterns`) setting had its whole description crammed into a single `title` line (unlike every other multi-part setting in this extension, which splits a short `title` and a separate `help` line) -- in the AirDC++/FulDC++ Settings screen this made that one line visually cut off. Split into a short title plus a `help` line showing the example patterns, matching the layout every other setting already uses. No functional change -- the setting's key, type and default value are all unchanged.
+
+## Notes (1.3.1)
+
+The `description` field in package.json now starts with a consistent, machine-parseable `Hub command(s): /rvalidator [scan [path]|accept <path>|unaccept <path>|help] - ...` prefix, matching the same format across the whole extension family. Purely a metadata change for the new `airdcpp-extension-commands` extension, which reads this field to build a combined overview of every extension's hub commands -- no functional change here.
+
 ## Notes (1.3.0)
 
 No longer beta: version reset to 1.0.0 to mark the extension stable,

@@ -86,7 +86,8 @@ export const getSettingDefinitions = (sessionInfo: SessionInfo) => {
       max: 168,
     }, {
       key: 'no_sfv_exempt_patterns',
-      title: 'Release names allowed to have no SFV/NFO (comma-separated, * = wildcard, e.g. *.dirfix.*,*.prooffix.*)',
+      title: 'Release names allowed to have no SFV/NFO (comma-separated, * = wildcard)',
+      help: 'Example: *.dirfix.*,*.prooffix.*,*.nfofix.*,*.samplefix.*,*.fix.*',
       default_value: '*.dirfix.*,*.prooffix.*,*.nfofix.*,*.samplefix.*,*.fix.*',
       type: 'string',
       optional: true

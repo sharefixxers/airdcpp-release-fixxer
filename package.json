@@ -1,7 +1,7 @@
 {
   "name": "airdcpp-release-fixxer",
-  "version": "1.3.0",
-  "description": "Scans downloaded and shared release directories for missing/extra files (CRC/SFV/NFO) and automatically redownloads what's broken or missing. Fork of the official airdcpp-release-validator.",
+  "version": "1.3.2",
+  "description": "Hub command: /rvalidator [scan [path]|accept <path>|unaccept <path>|help] - Scans downloaded and shared release directories for missing/extra files (CRC/SFV/NFO) and automatically redownloads what's broken or missing. Fork of the official airdcpp-release-validator.",
   "main": "dist/main.js",
   "license": "MIT",
   "private": false,
