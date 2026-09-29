@@ -10,14 +10,14 @@ const isSubdir = (name: string) => subDirReg.test(name);
 
 const isNfo = (name: string) => path.extname(name).toLowerCase() === '.nfo';
 
-const findNfo = (directory: DirectoryInfo): boolean => {
+const findNfo = async (directory: DirectoryInfo): Promise<boolean> => {
 
-  const scanSubdirectory = async (parentPath: string, folderName: string) => {
+  const scanSubdirectory = async (folderName: string) => {
     const fullPath = path.join(directory.path, folderName);
 
     try {
       const contentList = await fs.readdir(fullPath);
-      return contentList.find(isNfo);
+      return contentList.some(isNfo);
     } catch (e) {
       console.error(`Failed to scan the path ${fullPath}: ${e}`);
     }
@@ -25,9 +25,18 @@ const findNfo = (directory: DirectoryInfo): boolean => {
     return false;
   };
 
-  return !!directory.folders
-    .filter(isSubdir)
-    .some(scanSubdirectory.bind(this, directory.path));
+  // Array.prototype.some with an async callback checks the truthiness of the
+  // returned Promise, not its resolved value -- a Promise object is always
+  // truthy, so a plain `.some(scanSubdirectory)` here used to report "NFO
+  // found" for any release with a matching subdirectory (Sample/Cover/DVD/
+  // CD/Disk/Subs) even when that subdirectory had no NFO in it at all,
+  // silently skipping the nfo_missing check for those releases. Await every
+  // subdirectory scan first, then check the resolved booleans.
+  const results = await Promise.all(
+    directory.folders.filter(isSubdir).map(scanSubdirectory)
+  );
+
+  return results.some(Boolean);
 };
 
 const validate: Validate = async (directory, reporter) => {

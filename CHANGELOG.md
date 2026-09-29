@@ -1,16 +1,51 @@
+## Notes (1.3.3)
+
+Real bug fix in the missing-NFO check (`MissingNfo.ts`): when a release 
+has no NFO/other files at its top level, the check looks inside its 
+Sample/Cover/DVD/CD/Disk/Subs-style subdirectories for one before 
+flagging `nfo_missing`. That subdirectory scan used 
+`Array.prototype.some()` with an `async` callback -- `.some()` only 
+checks whether the callback's *return value* is truthy, and an 
+unresolved `Promise` object is always truthy regardless of what it 
+resolves to, so the check reported "NFO found" for any release with a 
+matching subdirectory (most commonly `Sample`) even when that 
+subdirectory had no NFO in it at all, silently skipping `nfo_missing` 
+for those releases -- likely for a long time, since this didn't depend 
+on any specific input beyond "has a Sample folder", which is common. 
+Fixed by awaiting every subdirectory scan first (`Promise.all`), then 
+checking the resolved booleans. New regression test added 
+(`Sample.No.Nfo.Anywhere-TEST`: a release with only a `Sample` subfolder 
+containing no NFO, expecting `nfo_missing` to still fire) -- confirmed 
+this test fails against the old code and passes against the fix; 51/51 
+tests pass, `tsc --noEmit` clean. 
+
 ## Notes (1.3.2)
 
-Settings-screen display fix: the **Release names allowed to have no SFV/NFO** (`no_sfv_exempt_patterns`) setting had its whole description crammed into a single `title` line (unlike every other multi-part setting in this extension, which splits a short `title` and a separate `help` line) -- in the AirDC++/FulDC++ Settings screen this made that one line visually cut off. Split into a short title plus a `help` line showing the example patterns, matching the layout every other setting already uses. No functional change -- the setting's key, type and default value are all unchanged.
+Settings-screen display fix: the **Release names allowed to have no 
+SFV/NFO** (`no_sfv_exempt_patterns`) setting had its whole description 
+crammed into a single `title` line (unlike every other multi-part 
+setting in this extension, which splits a short `title` and a separate 
+`help` line) -- in the AirDC++/FulDC++ Settings screen this made that 
+one line visually cut off. Split into a short title plus a `help` line 
+showing the example patterns, matching the layout every other setting 
+already uses. No functional change -- the setting's key, type and 
+default value are all unchanged. 
 
 ## Notes (1.3.1)
 
-The `description` field in package.json now starts with a consistent, machine-parseable `Hub command(s): /rvalidator [scan [path]|accept <path>|unaccept <path>|help] - ...` prefix, matching the same format across the whole extension family. Purely a metadata change for the new `airdcpp-extension-commands` extension, which reads this field to build a combined overview of every extension's hub commands -- no functional change here.
+The `description` field in package.json now starts with a consistent, 
+machine-parseable `Hub command(s): /rvalidator [scan [path]|accept 
+<path>|unaccept <path>|help] - ...` prefix, matching the same format 
+across the whole extension family. Purely a metadata change for the new 
+`airdcpp-extension-commands` extension, which reads this field to build 
+a combined overview of every extension's hub commands -- no functional 
+change here. 
 
 ## Notes (1.3.0)
 
-No longer beta: version reset to 1.0.0 to mark the extension stable,
+No longer beta: version reset to 1.3.0 to mark the extension stable,
 following semantic versioning convention (the 0.x/`-beta` range signals
-"may still change", 1.0.0 signals a settled, stable feature set). No
+"may still change", 1.3.0 signals a settled, stable feature set). No
 functional change -- `tsc --noEmit` clean, 50/50 tests still pass.
 
 ## Notes (1.2.29-beta)
@@ -120,7 +155,12 @@ they should have been:
 
 ## Notes (1.2.24-beta)
 
-Cosmetic fix in `ScanRunners.ts`: the manual-scan status message for a single path ("Scanning the path X...") had a literal trailing "..." hardcoded right after the path, regardless of the actual path. Removed. The multi-path variant ("Scanning N paths...") keeps its "..." -- that one follows static text, not a raw value, and reads as an intentional "in progress" indicator rather than a truncated value.
+Cosmetic fix in `ScanRunners.ts`: the manual-scan status message for a 
+single path ("Scanning the path X...") had a literal trailing "..." 
+hardcoded right after the path, regardless of the actual path. Removed. 
+The multi-path variant ("Scanning N paths...") keeps its "..." -- that 
+one follows static text, not a raw value, and reads as an intentional 
+"in progress" indicator rather than a truncated value. 
 
 ## Notes (1.2.21-beta)
 
@@ -242,7 +282,17 @@ CRC-redownload behavior.
 
 ## Notes (1.2.13-beta)
 
-Fixed a typo in the "Release names allowed to have no SFV" setting: the example was `*.proofix.*`, but the real release tag is `PROOFFIX` (double F). Also gave `no_sfv_exempt_patterns` a sensible non-empty default instead of shipping empty: `*.dirfix.*,*.prooffix.*,*.nfofix.*,*.samplefix.*,*.fix.*`. These are all release types that legitimately ship with only an NFO and a Sample/Proof subfolder (no SFV, no real content) by design, not because the download is broken -- e.g. a SAMPLEFIX release with just an NFO and a Sample folder was being wrongly flagged as `incomplete_no_sfv` before this. Existing installs keep whatever value they already have in this setting; the new default only applies on a fresh install.
+Fixed a typo in the "Release names allowed to have no SFV" setting: the 
+example was `*.proofix.*`, but the real release tag is `PROOFFIX` 
+(double F). Also gave `no_sfv_exempt_patterns` a sensible non-empty 
+default instead of shipping empty: 
+`*.dirfix.*,*.prooffix.*,*.nfofix.*,*.samplefix.*,*.fix.*`. These are 
+all release types that legitimately ship with only an NFO and a 
+Sample/Proof subfolder (no SFV, no real content) by design, not because 
+the download is broken -- e.g. a SAMPLEFIX release with just an NFO and 
+a Sample folder was being wrongly flagged as `incomplete_no_sfv` before 
+this. Existing installs keep whatever value they already have in this 
+setting; the new default only applies on a fresh install. 
 
 ## Notes (1.2.12-beta)
 
