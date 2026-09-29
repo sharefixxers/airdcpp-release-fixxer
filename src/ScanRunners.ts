@@ -156,7 +156,13 @@ const ScanRunners = function (context: Context) {
 
       const errorLogger = getMemoryErrorLogger(false);
 
-      const scanner = Scanner(configGetter().validators, errorLogger.logger, pathValidator(false), context.isPathAccepted);
+      // The 5th argument wires up the same per-directory "search and
+      // redownload" action already used for a manual/share scan (see
+      // doManualScan above) -- without it, a missing SFV/NFO found on a
+      // freshly-added share directory was only ever logged/rejected, never
+      // actually redownloaded, even though the README has documented this
+      // scan type as covered since 1.2.25-beta.
+      const scanner = Scanner(configGetter().validators, errorLogger.logger, pathValidator(false), context.isPathAccepted, context.onFileMissing);
       await scanner.scanPath(path, false);
 
       logCompletedDebug(scanner, 'New share directory scan completed');

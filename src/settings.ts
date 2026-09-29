@@ -48,7 +48,7 @@ export const getSettingDefinitions = (sessionInfo: SessionInfo) => {
       type: 'boolean'
     }, {
       key: 'crc_redownload',
-      title: 'Automatically re-search and redownload the release folder.',
+      title: 'Automatically re-search and redownload the release folder',
       default_value: true,
       type: 'boolean'
     }, {

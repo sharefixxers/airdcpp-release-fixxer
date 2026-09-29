@@ -1,3 +1,12 @@
+## Notes (1.3.4)
+
+Settings-screen typo fix: the **Automatically re-search and redownload the
+release folder** (`crc_redownload`) setting's title was the only one out
+of 16 setting titles in this extension that ended with a trailing period
+-- every other title doesn't. Removed it, for consistency. No functional
+change -- the setting's key, type and default value are all unchanged;
+52/52 tests pass, `tsc --noEmit` clean.
+
 ## Notes (1.3.3)
 
 Real bug fix in the missing-NFO check (`MissingNfo.ts`): when a release 
